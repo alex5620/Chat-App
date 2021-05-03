@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<link rel="stylesheet" href="stil.css" />
+		<title>ChitChat</title>
+	</head>
+	<body>
+		<div class="join-page">
+			<header class="join-header">
+ 				<h1>               
+                    <img src ="chat.png" alt="No image found." width=40 height=40>
+                    ChitChat
+                </h1>
+			</header>
+			<main class="join-main">
+				<form action="chat.html">
+					<div class="form-item">
+						<label for="username">Username</label>
+						<input
+							type="text"
+							name="username"
+							id="username"
+							placeholder="Enter username..."
+							required
+						/>
+					</div>
+					<div class="form-item">
+						<label for="room">Room</label>
+						<select name="room" id="room">
+							<option value="General">General</option>
+                            <option value="Sports">Sports</option>
+							<option value="Music">Music</option>
+                            <option value="Movies">Movies</option>
+						</select>
+					</div>
+					<button id="join-button" type="submit" class="btn">Join Chat</button>
+				</form>
+			</main>
+		</div>
+	</body>
+</html>
