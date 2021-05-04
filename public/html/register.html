@@ -1,0 +1,33 @@
+<form id="register-form" action="register" method="post"> 
+    <div class="form-item">
+        <label for="username">Username</label>
+        <input
+            type="text"
+            name="username"
+            id="username"
+            placeholder="Enter username..."
+            required
+        />
+    </div>
+    <div class="form-item">
+        <label for="password">Password</label>
+        <input
+            type="password"
+            name="password"
+            id="password"
+            placeholder="At least 6 characters..."
+            required
+        />
+    </div>
+    <div class="form-item">
+        <label for="password">Re-enter password</label>
+        <input
+            type="password"
+            name="password2"
+            id="password2"
+            required
+        />
+    </div>
+    <p id="register-message"></p>
+    <a id="register-button" onclick="register()" class="btn">Register</a>
+</form>

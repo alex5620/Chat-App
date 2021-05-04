@@ -3,9 +3,9 @@ const chatMessages = document.getElementsByClassName('chat-messages')[0];
 const roomName = document.getElementById('room-name');
 const userList = document.getElementById('users');
 
-const { username, room } = Qs.parse(location.search, {
-    ignoreQueryPrefix: true 
-});
+myStorage = window.sessionStorage;
+const username = sessionStorage.getItem('username');
+const room = sessionStorage.getItem('room');
 
 const socket = io();
 socket.emit('joinRoom', { username, room });
@@ -34,11 +34,18 @@ function outputMessage(message)
     const div = document.createElement('div');
     div.classList.add('message');
     let messageUsername = message.username;
+    let imageElement = ''
     if(messageUsername === username)
     {
-        messageUsername = "You";
+        messageUsername = 'You';
     }
-    div.innerHTML = `<p class="user">${messageUsername}&nbsp;<span>${message.time}</span></p>
+    else if(messageUsername === 'ChitChat Bot')
+    {
+        imageElement = '<img id="bot-img" src ="../resources/bot.png" alt="No image found." width=16 height=16">'    
+    }
+    div.innerHTML = `<p class="user">${messageUsername}&nbsp;
+    ${imageElement}
+    &nbsp;<span>${message.time}</span></p>
     <p class="text">${message.text}</p>`;
     document.getElementsByClassName('chat-messages')[0].appendChild(div);
 }

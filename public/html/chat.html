@@ -2,22 +2,22 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="stylesheet" href="css/stil.css" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/qs/6.10.1/qs.min.js"></script>
+    <link rel="stylesheet" href="../css/stil.css" />
     <script src="/socket.io/socket.io.js"></script>
-    <script src="js/client.js" defer></script>
-    <script src="js/interface.js"></script> 
+    <script src="../js/client.js" defer></script>
+    <script src="../js/admin.js" defer></script>
+    <script src="../js/interface.js"></script> 
     <title>ChitChat</title>
   </head>
   <body onload = "changeStyle(false)">
     <div class="chat-page">
       <header class="chat-header">
         <h1>
-            <img id="chat-img" src ="resources/chat.png" alt="No image found." width=30 height=30 onclick="changeStyle(true)">
+            <img id="chat-img" src ="../resources/chat.png" alt="No image found." width=30 height=30 onclick="changeStyle(true)">
             ChitChat
         </h1>
-        <a id="leave-button" href="html/index.html" class="btn" >
-          <img src ="resources/leave.png" alt="No image found." width=25 height=25>
+        <a id="leave-button" href="../index.html" class="btn" >
+          <img src ="../resources/leave.png" alt="No image found." width=25 height=25>
           Leave Room
         </a>
       </header>
@@ -25,15 +25,16 @@
         <div class="chat-messages"></div>
         <div class="chat-users">
           <h3>
-            <img src ="resources/room.png" alt="No image found." width=25 height=25>
+            <img src ="../resources/room.png" alt="No image found." width=25 height=25>
             Room Name:
           </h3>
           <h2 id="room-name"></h2>
           <h3>
-            <img src ="resources/users.png" alt="No image found." width=25 height=25>
+            <img src ="../resources/users.png" alt="No image found." width=25 height=25>
             Users
           </h3>
           <ul id="users"></ul>
+          <button id="modalButton" onclick=openModal() class="btn">Users list</button>
         </div>
       </main>
       <div class="chat-form-container">
@@ -46,10 +47,33 @@
             autocomplete="off"
           />
           <button id="send-button" class="btn">
-            <img src ="resources/send_message.png" alt="No image found." width=23 height=18>
+            <img src ="../resources/send_message.png" alt="No image found." width=23 height=18>
             Send
           </button>
         </form>
+      </div>
+    </div>
+    <div id="modal" class="modal">
+      <div class="modal-content">
+        <div id="modal-header">
+          <img src ="../resources/admin.png" alt="No image found." width=55 height=55>
+          <span id="admin-room-name">General</span>
+          <button onclick=closeModal() class="btn">Close</button>
+        </div>
+        <div id="modal-body">
+          <div id="online-users-text">Online users: 17</div>
+          <ul id="online-users">
+            <li>Alex<button class="btn" id="kick-button">Kick out</button></li>
+            <li>Alex<button class="btn" id="kick-button">Kick out</button></li>
+            <li>Alex<button class="btn" id="kick-button">Kick out</button></li>
+            <li>Aledsadasdsax<button class="btn" id="kick-button">Kick out</button></li>
+            <li>Alex<button class="btn" id="kick-button">Kick out</button></li>
+            <li>Alex<button class="btn" id="kick-button">Kick out</button></li>
+            <li>Alex<button class="btn" id="kick-button">Kick out</button></li>
+            <li>Alex<button class="btn" id="kick-button">Kick out</button></li>
+            <li>Alex<button class="btn" id="kick-button">Kick out</button></li>
+          </ul>
+        </div>
       </div>
     </div>
   </body>

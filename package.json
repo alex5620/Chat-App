@@ -17,7 +17,10 @@
   },
   "homepage": "https://github.com/alex5620/Chat-App#readme",
   "dependencies": {
+    "connect-flash": "^0.1.1",
+    "cookie-parser": "^1.4.5",
     "express": "^4.17.1",
+    "express-session": "^1.17.1",
     "moment": "^2.29.1",
     "socket.io": "^4.0.1"
   }
