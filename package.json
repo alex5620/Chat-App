@@ -1,0 +1,24 @@
+{
+  "name": "chitchat",
+  "version": "1.0.0",
+  "description": "Simple chat application",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alex5620/Chat-App.git"
+  },
+  "author": "Alex Susanu",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/alex5620/Chat-App/issues"
+  },
+  "homepage": "https://github.com/alex5620/Chat-App#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "moment": "^2.29.1",
+    "socket.io": "^4.0.1"
+  }
+}

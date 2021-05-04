@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="css/stil.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qs/6.10.1/qs.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="js/client.js" defer></script>
+    <script src="js/interface.js"></script> 
+    <title>ChitChat</title>
+  </head>
+  <body onload = "changeStyle(false)">
+    <div class="chat-page">
+      <header class="chat-header">
+        <h1>
+            <img id="chat-img" src ="resources/chat.png" alt="No image found." width=30 height=30 onclick="changeStyle(true)">
+            ChitChat
+        </h1>
+        <a id="leave-button" href="html/index.html" class="btn" >
+          <img src ="resources/leave.png" alt="No image found." width=25 height=25>
+          Leave Room
+        </a>
+      </header>
+      <main class="chat-main">
+        <div class="chat-messages"></div>
+        <div class="chat-users">
+          <h3>
+            <img src ="resources/room.png" alt="No image found." width=25 height=25>
+            Room Name:
+          </h3>
+          <h2 id="room-name"></h2>
+          <h3>
+            <img src ="resources/users.png" alt="No image found." width=25 height=25>
+            Users
+          </h3>
+          <ul id="users"></ul>
+        </div>
+      </main>
+      <div class="chat-form-container">
+        <form id="chat-form">
+          <input
+            id="msg"
+            type="text"
+            placeholder="Enter Message"
+            required
+            autocomplete="off"
+          />
+          <button id="send-button" class="btn">
+            <img src ="resources/send_message.png" alt="No image found." width=23 height=18>
+            Send
+          </button>
+        </form>
+      </div>
+    </div>
+  </body>
+</html>
