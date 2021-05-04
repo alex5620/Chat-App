@@ -3,7 +3,7 @@ const http = require('http');
 const socketio = require('socket.io');
 const formatMessage = require('./messages');
 fs = require('fs');
-const { userJoin, getCurrentUser, userLeave, getRoomUsers } = require('./users');
+const { removeUser, userJoin, getCurrentUser, userLeave, getRoomUsers } = require('./users');
 
 
 const app = express();
@@ -15,12 +15,14 @@ app.use(express.static('public'));
 
 io.on('connection', socket => {
     socket.on('joinRoom', ({username, room}) => {
-        const user = userJoin(socket.id, username, room);
+        let isAdmin = isUserAdmin(username, room);
+        socket.emit('admin', isAdmin);
+        const user = userJoin(socket.id, username, room, isAdmin);
         socket.join(user.room); 
         // sends the message to the client that has connected
-        socket.emit('message', formatMessage('ChitChat Bot','Welcome to ChitChat!'));
+        socket.emit('message', formatMessage('ChitChat Bot','Welcome to ChitChat!', false));
         // sends the message to everyone excepting the user that is connecting
-        socket.broadcast.to(user.room).emit('message',  formatMessage('ChitChat Bot',`${username} has joined the chat.`));        
+        socket.broadcast.to(user.room).emit('message',  formatMessage('ChitChat Bot',`${username} has joined the chat.`, false));        
 
         io.to(user.room).emit('roomUsers', {
             room: user.room,
@@ -30,9 +32,21 @@ io.on('connection', socket => {
 
     socket.on('chatMessage', msg => {
         const user = getCurrentUser(socket.id);
-        // here I could send the message just to the other users
-        // and in the client page I could put just you on the sender's name
-        io.to(user.room).emit('message',  formatMessage(user.username, msg));
+        io.to(user.room).emit('message',  formatMessage(user.username, msg, user.isAdmin));
+    });
+
+    socket.on('users', msg => {
+        socket.emit('usersResult', getRoomUsers(msg));
+        // get list of users from the room and send it to the client
+    })
+
+    socket.on('kickout', ({admin, user}) => {
+        const kickedUser = removeUser(user);
+        io.to(kickedUser.room).emit('message', formatMessage('ChitChat Bot',`${user} has been kicked out by ${admin}.`, false));
+        io.to(kickedUser.room).emit('roomUsers', {
+            room: kickedUser.room,
+            users: getRoomUsers(kickedUser.room)
+        });
     });
 
     socket.on('disconnect', () => {
@@ -40,13 +54,18 @@ io.on('connection', socket => {
         if(user)
         {
             // sends the message to everyone 
-            io.to(user.room).emit('message', formatMessage('ChitChat Bot',`${user.username} has left the chat.`));
+            io.to(user.room).emit('message', formatMessage('ChitChat Bot',`${user.username} has left the chat.`, false));
             
             io.to(user.room).emit('roomUsers', {
                 room: user.room,
                 users: getRoomUsers(user.room)
             });
         }
+    });
+
+    socket.on('forceDisconnect', () => {
+
+        socket.disconnect();
     });
 });
 
@@ -144,6 +163,26 @@ function checkIfUserExists(username, password)
         if(users[i].username == username && users[i].password == password)
         {
             return true;
+        }
+    }
+    return false;
+}
+
+function isUserAdmin(username, room)
+{
+    const data = fs.readFileSync('users.json', 'utf8');
+    const users = JSON.parse(data);
+    for(let i=0;i<users.length;++i)
+    {
+        if(users[i].username == username && users[i].admin != undefined)
+        {
+            for(let j=0;j<users[i].admin.length;++j)
+            {
+                if(room == users[i].admin[j])
+                {
+                    return true;
+                }
+            }
         }
     }
     return false;

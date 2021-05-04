@@ -93,7 +93,7 @@ h3 > img, .btn > img {
 	text-decoration: none;
 }
 
-#leave-button:hover, #send-button:hover, #join-button:hover, #register-button:hover
+.btn:hover
 {
 	background-color: white;
 }
@@ -336,4 +336,11 @@ h3 > img, .btn > img {
 	padding: 0px 8px;
 	margin-top: -19px;
 	margin-left: 200px;
+}
+
+#modalButton
+{
+	display: none;
+	padding: 5px 10px;
+	font-size: 18px;
 }

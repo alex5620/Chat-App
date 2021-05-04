@@ -1,1 +1,1 @@
-[{"username":"alex1","password":"pass1"},{"username":"alex2","password":"pass2"},{"username":"alex3","password":"pass3"},{"username":"alex4","password":"pass4"},{"username":"alexcata78","password":"123456"}]
+[{"username":"alex1","password":"pass1","admin":["General", "Sports"]},{"username":"alex2","password":"pass2", "admin":["General", "Music"]},{"username":"alex3","password":"pass3"},{"username":"alex4","password":"pass4"},{"username":"alexcata78","password":"123456"}, {"username":"alexcata79","password":"123456"}]
