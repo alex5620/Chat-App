@@ -6,7 +6,12 @@ const onlineUsers = document.getElementById('online-users');
 
 myStorage = window.sessionStorage;
 const username = sessionStorage.getItem('username');
+if(username == null)
+{
+    window.location.href = '../index.html';
+}
 const room = sessionStorage.getItem('room');
+getMessages();
 let isAdmin = false
 
 const socket = io();
@@ -79,11 +84,12 @@ function outputMessage(message)
     &nbsp;<span>${message.time}</span></p>
     <p class="text">${message.text}</p>`;
     document.getElementsByClassName('chat-messages')[0].appendChild(div);
+    saveMessageToLocalStorage(messageUsername, message.text, message.time, color);
 }
 
 function outputRoomName(room)
 {
-    roomName.innerText = room;
+    roomName.innerText = `${room}(rules)`;
 }
 
 function outputUsers(users)
@@ -92,9 +98,14 @@ function outputUsers(users)
     userList.innerHTML += `<li>${username}(you)</li>`;
     for(user in users)
     {
+        let admin =''
         if(users[user].username !== username)
         {
-            userList.innerHTML += `<li>${users[user].username}</li>`;
+            if(users[user].isAdmin == true)
+            {
+                admin = '-ADMIN';
+            }
+            userList.innerHTML += `<li>${users[user].username}${admin}</li>`;
         }
     }
 }
@@ -137,4 +148,40 @@ function shouldDisconnect(users)
         }
     }
     return true;
+}
+
+function saveMessageToLocalStorage(user, text, time, color)
+{
+    if(user !== 'ChitChat Bot')
+    {
+        let info = localStorage.getItem(`${username}-${room}`);
+        if(info != null)
+        {
+            info = JSON.parse(info);
+            info.push({user, text, time, color});
+            localStorage.setItem(`${username}-${room}`, JSON.stringify(info));
+        }
+        else
+        {
+            localStorage.setItem(`${username}-${room}`, JSON.stringify([{user, text, time, color}]));
+        }
+    }
+}
+
+function getMessages()
+{
+    let info = localStorage.getItem(`${username}-${room}`);
+    if(info != null)
+    {
+        info = JSON.parse(info);
+        for(let i=0;i<info.length;++i)
+        {
+            const div = document.createElement('div');
+            div.classList.add('message');
+            div.innerHTML = `<p class="user" ${info[i].color}>${info[i].user}&nbsp;
+            &nbsp;<span>${info[i].time}</span></p>
+            <p class="text">${info[i].text}</p>`;
+            document.getElementsByClassName('chat-messages')[0].appendChild(div);
+        }
+    }
 }

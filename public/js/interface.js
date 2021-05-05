@@ -21,8 +21,8 @@ function changeStyle(cond)
     root.style.setProperty('--lighter-color', colorsArray[colorIndex].value2);
     let register = document.getElementById("register-menu");
     let login = document.getElementById("login-menu");
-    if(cond)
-        {
+    if(cond && register)
+    {
         if(register.style.opacity == 1)
         {
             register.style.backgroundColor = colorsArray[colorIndex].value1;
@@ -45,6 +45,14 @@ function login()
         if(event.target.status === 401)
         {
             document.getElementById('login-message').innerHTML = "Invalid Credentials.";
+        }
+        else if(event.target.status === 403)
+        {
+            document.getElementById('login-message').innerHTML = "You have been banned temporarily.";
+        }
+        else if(event.target.status === 202)
+        {
+            document.getElementById('login-message').innerHTML = "You are already logged into this room.";
         }
         else if(event.target.status === 200)
         {
@@ -135,3 +143,36 @@ function changeContent(resource)
 }
 
 changeContent('../html/login');
+
+function removeUserInfo()
+{
+    let myStorage = window.sessionStorage;
+    myStorage.removeItem('username');
+    myStorage.removeItem('room');
+}
+
+window.onclick = function(event) {
+    var rulesModal = document.getElementById("rules-modal");
+    var modal = document.getElementById("modal");
+    if (event.target == rulesModal) {
+        closeRulesModal();
+    }
+    if(event.target == modal)
+    {
+        closeModal();
+    }
+}
+
+function openRulesModal()
+{
+    let modal = document.getElementById("rules-modal");
+    modal.style.display = "block";
+    let roomName = document.getElementById('rules-room-name');
+    roomName.innerHTML = document.getElementById('room-name').innerHTML.replace('(rules)','') + '-Rules';
+}
+
+function closeRulesModal()
+{
+    var modal = document.getElementById("rules-modal");
+    modal.style.display = "none";
+}

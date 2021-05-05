@@ -16,7 +16,7 @@
             <img id="chat-img" src ="../resources/chat.png" alt="No image found." width=30 height=30 onclick="changeStyle(true)">
             ChitChat
         </h1>
-        <a id="leave-button" href="../index.html" class="btn" >
+        <a id="leave-button" href="../index.html" onclick="removeUserInfo()" class="btn" >
           <img src ="../resources/leave.png" alt="No image found." width=25 height=25>
           Leave Room
         </a>
@@ -28,13 +28,14 @@
             <img src ="../resources/room.png" alt="No image found." width=25 height=25>
             Room Name:
           </h3>
-          <h2 id="room-name"></h2>
+          <h2 id="room-name" onclick="openRulesModal()">
+          </h2>
           <h3>
             <img src ="../resources/users.png" alt="No image found." width=25 height=25>
             Users
           </h3>
           <ul id="users"></ul>
-          <button id="modalButton" onclick=openModal() class="btn">Users list</button>
+          <button id="modalButton" onclick="openModal()" class="btn">Users list</button>
         </div>
       </main>
       <div class="chat-form-container">
@@ -58,11 +59,29 @@
         <div id="modal-header">
           <img src ="../resources/admin.png" alt="No image found." width=55 height=55>
           <span id="admin-room-name">General</span>
-          <button onclick=closeModal() class="btn">Close</button>
+          <button onclick="closeModal()" class="btn">Close</button>
         </div>
         <div id="modal-body">
           <div id="online-users-text"></div>
           <ul id="online-users">/ul>
+        </div>
+      </div>
+    </div>
+    <div id="rules-modal" class="modal">
+      <div class="modal-content">
+        <div id="rules-modal-header">
+          <img src ="../resources/rules.png" alt="No image found." width=55 height=55>
+          <span id="rules-room-name">General</span>
+          <button onclick="closeRulesModal()" class="btn">Close</button>
+        </div>
+        <div id="rules-modal-body">
+          <p class="rule">1. Be Respectful to Others</p>
+          <p class="rule">2. Keep The Chat Positive</p>
+          <p class="rule">3. No Hate Speech</p>
+          <p class="rule">4. Stay On Topic</p>
+          <p class="rule">5. No NSFW</p>
+          <p class="rule">6. Avoid Spam</p>
+          <p class="rule">7. Love Animals, Animals Are Lovely</p>
         </div>
       </div>
     </div>

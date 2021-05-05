@@ -66,6 +66,11 @@ body {
 	margin-bottom: 20px;
 }
 
+.chat-users h2:hover {
+	background: rgba(0, 0, 0, 0.2);
+	cursor: pointer;
+}
+
 .chat-users h3 {
 	padding-bottom: 10px;
 	display: flex;
@@ -266,7 +271,7 @@ h3 > img, .btn > img {
   	background-color: rgba(0,0,0,0.75);
 }
 
-.modal-content {
+.modal-content, #rules-modal-content {
 	position: absolute;
 	top: 50%;
 	left: 50%;
@@ -277,15 +282,8 @@ h3 > img, .btn > img {
 	border-bottom: 2px solid var(--lighter-color);
 	border-radius: 4px;
 }
-
-.close {
-	color: #aaaaaa;
-	float: right;
-	font-size: 28px;
-	font-weight: bold;
-}
   
-#modal-header {
+#modal-header, #rules-modal-header {
 	background: var(--lighter-color);
 	color: var(--font-color);
 	padding: 8px 10px;
@@ -294,7 +292,7 @@ h3 > img, .btn > img {
 	justify-content: space-between;
 }
 
-#modal-body
+#modal-body, #rules-modal-body
 {
 	color: #fff;
 	width: 100%;
@@ -304,7 +302,12 @@ h3 > img, .btn > img {
 	font-size: 18px;
 }
 
-#admin-room-name
+#rules-modal-body
+{
+	height: 78%;
+}
+
+#admin-room-name, #rules-room-name
 {
 	font-size: 24px;
 	color: var(--font-color);
@@ -343,4 +346,11 @@ h3 > img, .btn > img {
 	display: none;
 	padding: 5px 10px;
 	font-size: 18px;
+}
+
+.rule
+{
+	font-size: 20px;
+	margin-bottom: 10px;
+	padding-left: 80px;
 }

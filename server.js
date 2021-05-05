@@ -3,13 +3,14 @@ const http = require('http');
 const socketio = require('socket.io');
 const formatMessage = require('./messages');
 fs = require('fs');
-const { removeUser, userJoin, getCurrentUser, userLeave, getRoomUsers } = require('./users');
+const { removeUser, userJoin, getCurrentUser, userLeave, getRoomUsers, checkIfUserIsLoggedInRoom } = require('./users');
 
 
 const app = express();
 
 const server = http.createServer(app);
 const io = socketio(server);
+
 
 app.use(express.static('public'));
 
@@ -78,7 +79,22 @@ app.post('/login', (req, res) => {
         const responseList = body.split('\r\n');
         const username = responseList[3];
         const password = responseList[7];
-        if(checkIfUserExists(username, password))
+        const room = responseList[11];
+        if(checkIfUserIsBanned(username, room))
+        {
+            res.status(403).json({
+                Success: 0, 
+                Message: 'Forbidden'
+            });
+        }
+        else if(checkIfUserIsLoggedInRoom(username, room))
+        {
+            res.status(202).json({
+                Success: 0, 
+                Message: 'Accepted'
+            });
+        }
+        else if(checkIfUserExists(username, password))
         {
             res.redirect('html/chat.html');
         }
@@ -161,6 +177,22 @@ function checkIfUserExists(username, password)
     for(let i=0;i<users.length;++i)
     {
         if(users[i].username == username && users[i].password == password)
+        {
+            return true;
+        }
+    }
+    return false;
+}
+
+function checkIfUserIsBanned(username, room)
+{
+    const data = fs.readFileSync('banned-users.json', 'utf8');
+    const bannedUsers = JSON.parse(data);
+    let time = new Date().getTime();
+    for(let i=0;i<bannedUsers.length;++i)
+    {
+        if(bannedUsers[i].username == username && (time - JSON.parse(bannedUsers[i].time) < 3600000)
+            && bannedUsers[i].room == room)
         {
             return true;
         }
