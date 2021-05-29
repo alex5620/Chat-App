@@ -5,12 +5,10 @@ const formatMessage = require('./messages');
 fs = require('fs');
 const { removeUser, userJoin, getCurrentUser, userLeave, getRoomUsers, checkIfUserIsLoggedInRoom } = require('./users');
 
-
 const app = express();
 
 const server = http.createServer(app);
 const io = socketio(server);
-
 
 app.use(express.static('public'));
 
@@ -37,13 +35,13 @@ io.on('connection', socket => {
     });
 
     socket.on('users', msg => {
-        socket.emit('usersResult', getRoomUsers(msg));
         // get list of users from the room and send it to the client
+        socket.emit('usersResult', getRoomUsers(msg));
     })
 
     socket.on('kickout', ({admin, user}) => {
         const kickedUser = removeUser(user);
-        io.to(kickedUser.room).emit('message', formatMessage('ChitChat Bot',`${user} has been kicked out by ${admin}.`, false));
+        io.to(kickedUser.room).emit('message', formatMessage('ChitChat Bot',`${user} has been kicked out by admin ${admin}.`, false));
         io.to(kickedUser.room).emit('roomUsers', {
             room: kickedUser.room,
             users: getRoomUsers(kickedUser.room)
@@ -65,7 +63,6 @@ io.on('connection', socket => {
     });
 
     socket.on('forceDisconnect', () => {
-
         socket.disconnect();
     });
 });

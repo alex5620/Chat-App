@@ -32,6 +32,7 @@ function removeUser(username){
         fs.writeFileSync('banned-users.json', JSON.stringify(bannedUsers), { encoding: "utf8"}); 
         return user;
     }
+    console.log("here");
 }
 
 function getRoomUsers(room)

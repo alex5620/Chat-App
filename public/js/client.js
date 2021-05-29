@@ -4,13 +4,14 @@ const roomName = document.getElementById('room-name');
 const userList = document.getElementById('users');
 const onlineUsers = document.getElementById('online-users');
 
-myStorage = window.sessionStorage;
+myStorage = window.sessionStorage;  
 const username = sessionStorage.getItem('username');
 if(username == null)
 {
     window.location.href = '../index.html';
 }
 const room = sessionStorage.getItem('room');
+outputRoomName(room);
 getMessages();
 let isAdmin = false
 
@@ -30,10 +31,10 @@ socket.on('roomUsers', ({ room, users }) => {
     if(shouldDisconnect(users))
     {
         socket.emit('forceDisconnect');
+        myStorage.removeItem('username');
         window.location.href = '../index.html';
         alert('You have been kicked out.');
     }
-    outputRoomName(room);
     outputUsers(users);
     if(isAdmin)
     {
